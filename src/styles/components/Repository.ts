@@ -35,6 +35,7 @@ export const Container = styled.div`
   p {
     font-size: 14px;
     color: var(--text);
+    margin-bottom: 8px;
   }
 
   span {
@@ -65,8 +66,9 @@ export const Name = styled.div`
 
 export const Language = styled.div`
   padding: 8px 24px;
-  background: var(--light-blue);
 
+  border: 1px solid var(--light-blue);
   border-radius: 32px;
-  color: #fff;
+
+  color: var(--light-blue);
 `;
