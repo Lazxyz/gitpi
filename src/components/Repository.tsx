@@ -18,6 +18,8 @@ interface RepositoryProps {
 }
 
 export default function Repository({ data }: RepositoryProps) {
+  console.log(data.homepage);
+
   return (
     <Container>
       <div>
@@ -33,7 +35,7 @@ export default function Repository({ data }: RepositoryProps) {
           </div>
           {data.homepage && (
             <div>
-              <a href={data.homepage} target="_blank">
+              <a href={`https://${data.homepage}`} target="_blank">
                 <FiLink />
               </a>
             </div>
