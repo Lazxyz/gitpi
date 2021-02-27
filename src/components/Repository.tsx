@@ -33,7 +33,7 @@ export default function Repository({ data }: RepositoryProps) {
           </div>
           {data.homepage && (
             <div>
-              <a href={data.homepage}>
+              <a href={data.homepage} target="_blank">
                 <FiLink />
               </a>
             </div>
