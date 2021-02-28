@@ -12,7 +12,9 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+`;
 
+export const Info = styled.div`
   a {
     color: var(--light-blue);
 
@@ -37,8 +39,28 @@ export const Container = styled.div`
     color: var(--text);
     margin-bottom: 8px;
   }
+`;
 
-  span {
+export const Name = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const Details = styled.div`
+  margin-top: 12px;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  div {
+    display: flex;
+  }
+
+  div span {
+    margin-right: 28px;
+
     color: var(--light-blue);
 
     display: flex;
@@ -48,20 +70,6 @@ export const Container = styled.div`
       margin-right: 8px;
     }
   }
-
-  > div:last-child {
-    margin-top: 12px;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-`;
-
-export const Name = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 `;
 
 export const Language = styled.div`

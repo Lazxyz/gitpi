@@ -1,5 +1,12 @@
 import { Fragment } from "react";
 import { GetServerSideProps } from "next";
+import axios from "axios";
+
+import {
+  IUserProps,
+  IRepository,
+  IResponse,
+} from "../../interfaces/interfaces";
 
 import {
   Container,
@@ -13,26 +20,7 @@ import Repository from "../../components/Repository";
 
 import { FiStar, FiUser, FiGlobe } from "react-icons/fi";
 
-interface Repository {
-  owner: string;
-  name: string;
-  description: string;
-  stargazers_count: number;
-  homepage: string | null;
-  language: string | null;
-}
-
-interface DataProps {
-  login: string;
-  avatar_url: string;
-  bio: string;
-  followers: number;
-  following: number;
-  repositories: Repository[];
-  stars: number;
-}
-
-export default function User(props: DataProps) {
+export default function User(props: IUserProps) {
   return (
     <Container>
       <Header>
@@ -86,8 +74,34 @@ export default function User(props: DataProps) {
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { username } = ctx.params;
 
-  const response = await fetch("https://api.github.com/users/" + username);
-  if (response.status === 403) {
+  try {
+    const response = await axios.get<IResponse>(
+      "https://api.github.com/users/" + username
+    );
+
+    const repositories = await axios.get<IRepository[]>(
+      "https://api.github.com/users/" + username + "/repos"
+    );
+
+    let stars = 0;
+    repositories.data.map(
+      (repository) => (stars += repository.stargazers_count)
+    );
+
+    return {
+      props: {
+        ...response.data,
+        repositories: repositories.data,
+        stars,
+      },
+    };
+  } catch (e) {
+    if (e.response.status === 404) {
+      return {
+        notFound: true,
+      };
+    }
+
     return {
       redirect: {
         destination: "/",
@@ -95,36 +109,4 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       },
     };
   }
-
-  if (response.status === 404) {
-    return {
-      notFound: true,
-    };
-  }
-
-  const repository = await fetch(
-    "https://api.github.com/users/" + username + "/repos"
-  );
-
-  const data: DataProps = {
-    ...(await response.json()),
-    repositories: await repository.json(),
-  };
-
-  const { login, avatar_url, bio, followers, following, repositories } = data;
-
-  let stars = 0;
-  repositories.map((c) => (stars += c.stargazers_count));
-
-  return {
-    props: {
-      login,
-      avatar_url,
-      bio,
-      followers,
-      following,
-      repositories,
-      stars,
-    },
-  };
 };

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { useRouter } from "next/router";
 
 import {
@@ -19,7 +19,7 @@ export default function Home() {
   const [username, setUsername] = useState("");
   const router = useRouter();
 
-  function redirectUserPage(e) {
+  function redirectUserPage(e: FormEvent) {
     e.preventDefault();
 
     if (username.length > 0) {

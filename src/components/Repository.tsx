@@ -1,6 +1,14 @@
-import { Container, Name, Language } from "../styles/components/Repository";
+import {
+  Container,
+  Info,
+  Name,
+  Details,
+  Language,
+} from "../styles/components/Repository";
 
 import { FiStar, FiBookOpen, FiLink } from "react-icons/fi";
+import { BiGitRepoForked } from "react-icons/bi";
+
 import { ReactNode } from "react";
 
 interface Data {
@@ -8,6 +16,7 @@ interface Data {
   name: string;
   description: string;
   stargazers_count: number;
+  forks_count: number;
   homepage: string | null;
   language: string | null;
 }
@@ -18,11 +27,9 @@ interface RepositoryProps {
 }
 
 export default function Repository({ data }: RepositoryProps) {
-  console.log(data.homepage);
-
   return (
     <Container>
-      <div>
+      <Info>
         <Name>
           <div>
             <a
@@ -43,15 +50,20 @@ export default function Repository({ data }: RepositoryProps) {
         </Name>
 
         <p>{data.description}</p>
-      </div>
-      <div>
-        <span>
-          <FiStar />
-          {data.stargazers_count}
-        </span>
-
-        {data.language && <Language>{data.language}</Language>}
-      </div>
+      </Info>
+      <Details>
+        <div>
+          <span>
+            <FiStar />
+            {data.stargazers_count}
+          </span>
+          <span>
+            <BiGitRepoForked />
+            {data.forks_count}
+          </span>
+        </div>
+        <div>{data.language && <Language>{data.language}</Language>}</div>
+      </Details>
     </Container>
   );
 }
