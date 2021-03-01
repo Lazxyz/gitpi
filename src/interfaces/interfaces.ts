@@ -1,5 +1,5 @@
 export interface IRepository {
-  owner: string;
+  author: string;
   name: string;
   description: string;
   stargazers_count: number;
@@ -11,9 +11,8 @@ export interface IRepository {
 export interface IResponse {
   login: string;
   avatar_url: string;
-  stars: string;
   bio: string;
-  created_at: Date;
+  created_at: string;
   blog: string | null;
   location: string | null;
   twitter_username: string | null;
@@ -22,20 +21,13 @@ export interface IResponse {
 }
 
 export interface IUserProps {
-  login: string;
-  avatar_url: string;
-  stars: string;
-  bio: string;
-  created_at: string;
-  blog: string | null;
-  location: string | null;
-  twitter_username: string | null;
-  followers: number;
-  following: number;
+  data: IResponse;
+  stars: number;
   repositories: IRepository[];
+  created_at: Date;
 }
 
 export interface IRepositoryListProps {
   repositories: IRepository[];
-  owner: string;
+  author: string;
 }

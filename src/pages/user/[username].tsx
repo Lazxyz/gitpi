@@ -32,41 +32,43 @@ export default function User(props: IUserProps) {
     <Container>
       <Head>
         <title>
-          {props.login} - {props.stars} stars
+          {props.data.login} - {props.stars} stars
         </title>
       </Head>
       <Header>
         <div>
           <UserInfo>
             <div>
-              <img src={props.avatar_url} alt="avatar" />
+              <img src={props.data.avatar_url} alt="avatar" />
             </div>
             <div>
               <strong>
-                {props.login}
+                {props.data.login}
                 <span>
                   <FiStar />
                   {props.stars}
                 </span>
               </strong>
 
-              <p>{props.bio ? props.bio : "Nenhuma biografia definida."}</p>
+              <p>{props.data.bio || "Nenhuma biografia definida."}</p>
               <Infos>
-                {props.twitter_username && (
-                  <a href={`https://twitter.com/${props.twitter_username}`}>
-                    <FiTwitter />@{props.twitter_username}
+                {props.data.twitter_username && (
+                  <a
+                    href={`https://twitter.com/${props.data.twitter_username}`}
+                  >
+                    <FiTwitter />@{props.data.twitter_username}
                   </a>
                 )}
-                {props.blog && (
-                  <a href={props.blog} target="_blank">
+                {props.data.blog && (
+                  <a href={props.data.blog} target="_blank">
                     <FiLink />
-                    {props.blog}
+                    {props.data.blog}
                   </a>
                 )}
-                {props.location && (
+                {props.data.location && (
                   <span>
                     <HiLocationMarker />
-                    {props.location}
+                    {props.data.location}
                   </span>
                 )}
 
@@ -74,11 +76,11 @@ export default function User(props: IUserProps) {
 
                 <span>
                   <FiUser />
-                  {props.followers} seguidores
+                  {props.data.followers} seguidores
                 </span>
                 <span>
                   <FiGlobe />
-                  {props.following} seguindo
+                  {props.data.following} seguindo
                 </span>
 
                 <Separator />
@@ -98,7 +100,10 @@ export default function User(props: IUserProps) {
         </div>
       </Header>
 
-      <RepositoryList repositories={props.repositories} owner={props.login} />
+      <RepositoryList
+        repositories={props.repositories}
+        author={props.data.login}
+      />
     </Container>
   );
 }
@@ -121,7 +126,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     );
 
     const date = new Date(response.data.created_at);
-    let created_at = new Intl.DateTimeFormat("pt-BR", {
+    const created_at = new Intl.DateTimeFormat("pt-BR", {
       timeZone: "UTC",
     })
       .format(date)
@@ -130,9 +135,11 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       .reverse()
       .join("/");
 
+    console.log(created_at);
+
     return {
       props: {
-        ...response.data,
+        data: response.data,
         repositories: repositories.data,
         stars,
         created_at,

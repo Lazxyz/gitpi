@@ -14,7 +14,7 @@ export default function RepositoryList(props: IRepositoryListProps) {
             <Repository
               data={{
                 ...c,
-                owner: props.owner,
+                author: props.author,
               }}
             />
           </Fragment>

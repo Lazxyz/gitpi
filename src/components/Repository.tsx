@@ -1,3 +1,5 @@
+import { IRepository } from "../interfaces/interfaces";
+
 import {
   Container,
   Info,
@@ -11,19 +13,9 @@ import { BiGitRepoForked } from "react-icons/bi";
 
 import { ReactNode } from "react";
 
-interface Data {
-  owner: string;
-  name: string;
-  description: string;
-  stargazers_count: number;
-  forks_count: number;
-  homepage: string | null;
-  language: string | null;
-}
-
 interface RepositoryProps {
   children?: ReactNode;
-  data: Data;
+  data: IRepository;
 }
 
 export default function Repository({ data }: RepositoryProps) {
@@ -33,7 +25,7 @@ export default function Repository({ data }: RepositoryProps) {
         <Name>
           <div>
             <a
-              href={`https://github.com/${data.owner}/${data.name}`}
+              href={`https://github.com/${data.author}/${data.name}`}
               target="_blank"
             >
               <FiBookOpen />
