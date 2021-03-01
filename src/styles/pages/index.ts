@@ -11,7 +11,6 @@ export const Container = styled.div`
 
 export const Login = styled.div`
   width: min(90vw, 340px);
-  height: 300px;
 
   background: var(--white);
   
@@ -48,6 +47,15 @@ export const Main = styled.main`
 
   span {
     color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 `;
 

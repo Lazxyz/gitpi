@@ -15,15 +15,20 @@ import {
 import { FiSearch } from "react-icons/fi";
 import { BsArrowRight, BsPerson } from "react-icons/bs";
 
+import { MoonLoader } from "react-spinners";
+
 export default function Home() {
   const [username, setUsername] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
   const router = useRouter();
 
   function redirectUserPage(e: FormEvent) {
     e.preventDefault();
 
     if (username.length > 0) {
-      return router.push("/user/" + username);
+      router.push("/user/" + username);
+      setIsLoading(true);
     }
   }
 
@@ -40,7 +45,10 @@ export default function Home() {
           </Header>
 
           <Main>
-            <span>Nome de usuário</span>
+            <span>
+              Nome de usuário
+              <MoonLoader color="var(--black)" loading={isLoading} size={17} />
+            </span>
 
             <form onSubmit={redirectUserPage}>
               <InputContainer>

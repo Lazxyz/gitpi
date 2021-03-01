@@ -13,6 +13,7 @@
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-icons": "^4.2.0",
+    "react-spinners": "^0.10.6",
     "styled-components": "^5.2.1"
   },
   "devDependencies": {
