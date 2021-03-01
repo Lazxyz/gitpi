@@ -1,8 +1,13 @@
 import { Fragment } from "react";
-import { IRepositoryListProps } from "../interfaces/interfaces";
-
 import { Container, Repositories } from "../styles/components/RepositoryList";
 import Repository from "./Repository";
+
+import { IRepository } from "../functions/fetchUser";
+
+export interface IRepositoryListProps {
+  repositories: IRepository[];
+  author: string;
+}
 
 export default function RepositoryList(props: IRepositoryListProps) {
   return (

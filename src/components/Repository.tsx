@@ -1,4 +1,4 @@
-import { IRepository } from "../interfaces/interfaces";
+import { IRepository } from "../functions/fetchUser";
 
 import {
   Container,

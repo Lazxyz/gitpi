@@ -1,16 +1,11 @@
 import { Fragment } from "react";
+import { IUserResponse } from "../../functions/fetchUser";
 
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import Link from "next/link";
 
-import axios from "axios";
-
-import {
-  IUserProps,
-  IRepository,
-  IResponse,
-} from "../../interfaces/interfaces";
+import { fetchUser } from "../../functions/fetchUser";
 
 import {
   Container,
@@ -27,48 +22,48 @@ import { FiStar, FiUser, FiGlobe, FiLink, FiTwitter } from "react-icons/fi";
 import { BsArrowLeft } from "react-icons/bs";
 import { HiLocationMarker } from "react-icons/hi";
 
-export default function User(props: IUserProps) {
+export default function User(props: IUserResponse) {
   return (
     <Container>
       <Head>
         <title>
-          {props.data.login} - {props.stars} stars
+          {props.user.login} - {props.stars} stars
         </title>
       </Head>
       <Header>
         <div>
           <UserInfo>
             <div>
-              <img src={props.data.avatar_url} alt="avatar" />
+              <img src={props.user.avatar_url} alt="avatar" />
             </div>
             <div>
               <strong>
-                {props.data.login}
+                {props.user.login}
                 <span>
                   <FiStar />
                   {props.stars}
                 </span>
               </strong>
 
-              <p>{props.data.bio || "Nenhuma biografia definida."}</p>
+              <p>{props.user.bio || "Nenhuma biografia definida."}</p>
               <Infos>
-                {props.data.twitter_username && (
+                {props.user.twitter_username && (
                   <a
-                    href={`https://twitter.com/${props.data.twitter_username}`}
+                    href={`https://twitter.com/${props.user.twitter_username}`}
                   >
-                    <FiTwitter />@{props.data.twitter_username}
+                    <FiTwitter />@{props.user.twitter_username}
                   </a>
                 )}
-                {props.data.blog && (
-                  <a href={props.data.blog} target="_blank">
+                {props.user.blog && (
+                  <a href={props.user.blog} target="_blank">
                     <FiLink />
-                    {props.data.blog}
+                    {props.user.blog}
                   </a>
                 )}
-                {props.data.location && (
+                {props.user.location && (
                   <span>
                     <HiLocationMarker />
-                    {props.data.location}
+                    {props.user.location}
                   </span>
                 )}
 
@@ -76,16 +71,16 @@ export default function User(props: IUserProps) {
 
                 <span>
                   <FiUser />
-                  {props.data.followers} seguidores
+                  {props.user.followers} seguidores
                 </span>
                 <span>
                   <FiGlobe />
-                  {props.data.following} seguindo
+                  {props.user.following} seguindo
                 </span>
 
                 <Separator />
 
-                <small>Conta criada em {props.created_at}</small>
+                <small>Conta criada em {props.user.created_at}</small>
               </Infos>
             </div>
           </UserInfo>
@@ -102,7 +97,7 @@ export default function User(props: IUserProps) {
 
       <RepositoryList
         repositories={props.repositories}
-        author={props.data.login}
+        author={props.user.login}
       />
     </Container>
   );
@@ -111,47 +106,14 @@ export default function User(props: IUserProps) {
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { username } = ctx.params;
 
-  try {
-    const response = await axios.get<IResponse>(
-      "https://api.github.com/users/" + username
-    );
-
-    const repositories = await axios.get<IRepository[]>(
-      "https://api.github.com/users/" + username + "/repos"
-    );
-
-    let stars = 0;
-    repositories.data.map(
-      (repository) => (stars += repository.stargazers_count)
-    );
-
-    const date = new Date(response.data.created_at);
-    const created_at = new Intl.DateTimeFormat("pt-BR", {
-      timeZone: "UTC",
-    })
-      .format(date)
-      .split("-")
-      .map((c) => c.padStart(2, "0"))
-      .reverse()
-      .join("/");
-
-    console.log(created_at);
-
+  const response = await fetchUser(username);
+  if (response.status === 404) {
     return {
-      props: {
-        data: response.data,
-        repositories: repositories.data,
-        stars,
-        created_at,
-      },
+      notFound: true,
     };
-  } catch (e) {
-    if (e.response.status === 404) {
-      return {
-        notFound: true,
-      };
-    }
+  }
 
+  if (response.status === 403) {
     return {
       redirect: {
         destination: "/",
@@ -159,4 +121,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       },
     };
   }
+
+  return {
+    props: response,
+  };
 };
