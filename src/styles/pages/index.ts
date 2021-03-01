@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   width: 100%;
-  height: 70vh;
+  height: 100vh;
 
   display: flex;
   align-items: center;
@@ -90,7 +90,8 @@ export const Input = styled.input`
   border: 0;
   outline: 0;
 
-  color: var(--title);
+  color: var(--light-blue);
+  font-weight: 700;
 `;
 
 export const Button = styled.button`

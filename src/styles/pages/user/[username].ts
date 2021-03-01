@@ -11,9 +11,20 @@ export const Header = styled.header`
 
   min-height: 260px;
 
-  background: var(--light-blue);
+  display: flex;
+  justify-content: space-between;
 
+  background: var(--light-blue);
   border-radius: 0 0 32px 32px;
+
+  @media (max-width: 560px) {
+    flex-direction: column-reverse;
+
+    > div {
+      display: flex;
+      justify-content: center;
+    }
+  }
 
   @media (max-width: 370px) {
     padding: 45px;
@@ -65,13 +76,13 @@ export const UserInfo = styled.div`
   }
 
   > div p {
-    margin-bottom: 22px;
+    margin-bottom: 4px;
 
     max-width: 520px;
     color: #fff;
   }
 
-  @media (max-width: 485px) {
+  @media (max-width: 560px) {
     flex-direction: column;
 
     > div:last-child {
@@ -90,11 +101,16 @@ export const UserInfo = styled.div`
   }
 `;
 
-export const Followers = styled.div`
+export const Infos = styled.div`
   margin-top: 8px;
-  color: #fff;
 
-  > span {
+  display: flex;
+  flex-direction: column;
+
+  > span, a {
+    color: #fff;
+    text-decoration: none;
+
     display: flex;
     align-items: center;
 
@@ -102,31 +118,41 @@ export const Followers = styled.div`
       margin-right: 8px;
     }
   }
+
+  > a:hover {
+    text-decoration: underline;
+    text-decoration-color: var(--black);
+  }
+
+  > small {
+    font-size: 14px;
+    color: #fff;
+  }
+
+  @media (max-width: 560px) {
+    margin-top: 28px;
+
+    align-items: center;
+  }
 `;
 
-export const Repositories = styled.div`
-  padding: 120px 0;
+export const Separator = styled.div`
+  margin: 12px 0;
+`;
 
-  h2 {
-    text-align: center;
+export const BackToHomepage = styled.a`
+  font-size: 19px;
+  color: #fff;
+
+  text-decoration: none;
+  font-weight: 700;
+
+  display: flex;
+  align-items: center;
+
+  svg {
+    margin-right: 8px;
+    font-size: 24px;
     color: var(--black);
-    font-weight: 700;
-    
-    font-size: 25px;
-
-    margin-bottom: 38px;
   }
-`;
-
-export const Grid = styled.div`
-  width: 100%;
-
-  display: grid;
-  grid-template-columns: repeat(2, min(90vw, 450px));
-  justify-content: center;
-  gap: 30px;
-
-  @media (max-width: 960px) {
-    grid-template-columns: repeat(1, min(90vw, 450px));
-  }
-`;
+`; 

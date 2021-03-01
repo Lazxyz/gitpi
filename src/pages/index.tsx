@@ -1,5 +1,6 @@
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 import {
   Container,
@@ -10,7 +11,6 @@ import {
   Input,
   Button,
 } from "../styles/pages/index";
-import HeaderComponent from "../components/Header";
 
 import { FiSearch } from "react-icons/fi";
 import { BsArrowRight, BsPerson } from "react-icons/bs";
@@ -29,9 +29,10 @@ export default function Home() {
 
   return (
     <>
-      <HeaderComponent />
-
       <Container>
+        <Head>
+          <title>GitPi</title>
+        </Head>
         <Login>
           <Header>
             <span>Buscar Github</span>

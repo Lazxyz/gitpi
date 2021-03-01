@@ -13,9 +13,12 @@ export interface IResponse {
   avatar_url: string;
   stars: string;
   bio: string;
+  created_at: Date;
+  blog: string | null;
+  location: string | null;
+  twitter_username: string | null;
   followers: number;
-  followng: number;
-  repositories: IRepository[];
+  following: number;
 }
 
 export interface IUserProps {
@@ -23,7 +26,16 @@ export interface IUserProps {
   avatar_url: string;
   stars: string;
   bio: string;
+  created_at: string;
+  blog: string | null;
+  location: string | null;
+  twitter_username: string | null;
   followers: number;
   following: number;
   repositories: IRepository[];
+}
+
+export interface IRepositoryListProps {
+  repositories: IRepository[];
+  owner: string;
 }
